@@ -1,24 +1,24 @@
-Tasks= [];
+Tasks = [];
 
 function Task(desc){
-    this.taskId=uuidv4();
-    this.description =desc;
+    this.taskId = uuidv4();
+    this.description = desc;
     this.isCompleted = false;
-    this.createdAt =new Date();
+    this.createdAt = new Date();
 }
 
-todoForm.addEventListener('submit',(event)=>{
+todoForm.addEventListener('submit',(event) => {
     event.preventDefault();
-    let taskDesc= document.todoForm.task.value;
-    if(taskDesc != ''){
-        let newTask= new Task(taskDesc)
+    let taskDesc = document.todoForm.task.value;
+    if(taskDesc !== ''){
+        let newTask = new Task(taskDesc)
         Tasks.push(newTask);
         addToLocalStorage(Tasks)
         document.todoForm.task.value = '';
     }
 });
 
-const addToDOM =(tasks)=>{
+const addToDOM = (tasks) => {
     let rootDiv = document.getElementById('taskList');
     rootDiv.innerText='';
     tasks.forEach( (task) => {
@@ -44,7 +44,7 @@ const addToDOM =(tasks)=>{
         btnEdit = addCSSClasses(btnEdit,"fa","fa-edit","btn-edit")
         btnEdit.addEventListener('click',()=>{edit(event.target.parentElement.id)})
 
-        let btnDel =document.createElement("i");
+        let btnDel = document.createElement("i");
         btnDel = addCSSClasses(btnDel,"fa","fa-times","btn-del");
         btnDel.addEventListener('click',()=>{del(event.target.parentElement.id)})
 
@@ -61,14 +61,14 @@ const addToDOM =(tasks)=>{
     });
 
 }
-const addCSSClasses=(elem, ...classlist)=>{
-    classlist.forEach((cssclass)=>{
+const addCSSClasses = (elem, ...classlist) => {
+    classlist.forEach((cssclass) => {
         elem.classList.add(cssclass)
     });
     return elem;
 }
 
-const del=(id)=>{
+const del = (id) => {
     document.getElementById(`${id}`).remove();
         Tasks = Tasks.filter((item) => {
           return item.taskId !== id;
@@ -77,18 +77,17 @@ const del=(id)=>{
         addToLocalStorage(Tasks);
     }
 
-const taskStatus=(id)=>{
-    let selectTask= Tasks.find((task)=>{
+const taskStatus = (id) => {
+    let selectTask = Tasks.find((task)=>{
         return task.taskId === id;
     });
     selectTask.isCompleted = !selectTask.isCompleted
     addToLocalStorage(Tasks)
 }
 
-const edit = (id) =>{
-    let parentDiv=document.getElementById(`${id}`)
-    let input=parentDiv.getElementsByClassName('todo-desc')[0];
-
+const edit = (id) => {
+    let parentDiv = document.getElementById(`${id}`)
+    let input = parentDiv.getElementsByClassName('todo-desc')[0];
     let btnEdit = parentDiv.getElementsByClassName('btn-edit')[0];
     input.disabled = false;
     input.focus();
@@ -112,8 +111,8 @@ const edit = (id) =>{
 
 }
 
-const taskUpdate = (id, input ,btnEdit) =>{
-        let selectTask = Tasks.find((task)=>{
+const taskUpdate = (id, input ,btnEdit) => {
+        let selectTask = Tasks.find((task)=> {
             return task.taskId === id;
         });
         selectTask.description = input.value;
@@ -128,16 +127,16 @@ const taskUpdate = (id, input ,btnEdit) =>{
 }
 
 
-const addToLocalStorage=(tasks)=>{
+const addToLocalStorage = (tasks) => {
     localStorage.setItem('todoList',JSON.stringify(tasks));
     addToDOM(tasks);
 }
 
-const fetchTodos=()=>{
-    const obj=localStorage.getItem('todoList'); 
+const fetchTodos = () => {
+    const obj = localStorage.getItem('todoList'); 
     if(obj){
         tasks=JSON.parse(obj);
-        tasks.forEach((item)=>{
+        tasks.forEach((item) => {
             Tasks.push(item)
         })
 
@@ -147,10 +146,10 @@ const fetchTodos=()=>{
 
 fetchTodos();
 
-todoForm.reset.addEventListener('click',()=>{
-    Tasks=[];
+todoForm.reset.addEventListener('click',() => {
+    Tasks = [];
     localStorage.clear();
-    taskList.innerText='';
+    taskList.innerText = '';
 });
 
 
